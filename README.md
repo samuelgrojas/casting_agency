@@ -8,7 +8,7 @@ Esta API permite gestionar actores y películas para una agencia de casting. Inc
 Este proyecto forma parte del programa Full Stack Nanodegree de Udacity. El objetivo es construir una API segura, bien documentada y desplegable que cumpla con los estándares profesionales.
 
 ## URL del Despliegue
-Actualmente no desplegado. Se recomienda usar plataformas como Render (gratuita) para el despliegue.
+El proceso está desplegado en Render y se puede acceder a través del siguiente link: https://render-deployment-example-pok5.onrender.com/
 
 ## Autenticación con Auth0
 La API requiere autenticación JWT. Se usa Auth0 con el flujo de contraseña (password grant).
@@ -49,7 +49,7 @@ flask run
 python test_app.py
 ```
 
-## 📚 Endpoints y RBAC
+## Endpoints y RBAC
 
 ### GET /actors
 - Requiere permiso: `get:actors`
