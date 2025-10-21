@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 from database.models import db_drop_and_create_all, setup_db, Movie, Actor, db
 from auth.auth import AuthError, requires_auth
-from cfg.config import Config
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
