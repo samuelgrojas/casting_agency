@@ -232,6 +232,22 @@ def bad_request(error):
         "message": "bad request"
     }), 400
 
+@app.errorhandler(401)
+def unauthorized(error):
+    return jsonify({
+        "success": False,
+        "error": 401,
+        "message": "unauthorized"
+    }), 401
+
+@app.errorhandler(403)
+def forbidden(error):
+    return jsonify({
+        "success": False,
+        "error": 403,
+        "message": "forbidden"
+    }), 403
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -250,15 +266,35 @@ def unprocessable(error):
         "message": "unprocessable"
     }), 422
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    return jsonify({
+        "success": False,
+        "error": 500,
+        "message": "internal server error"
+    }), 500
+
 
 @app.errorhandler(AuthError)
 def handle_auth_error(ex):
+    # Manejo defensivo si faltan campos en AuthError
+    status = getattr(ex, 'status_code', 401)
+    err = getattr(ex, 'error', {})
+    message = None
+
+    if isinstance(err, dict):
+        message = err.get('description') or err.get('message')
+    if not message:
+        message = 'authorization error'
+
+    app.logger.warning("AuthError %s: %s", status, message)
+
     response = jsonify({
         "success": False,
-        "error": ex.status_code,
-        "message": ex.error.get('description', 'authorization error')
+        "error": status,
+        "message": message
     })
-    response.status_code = ex.status_code
+    response.status_code = status
     return response
 
 

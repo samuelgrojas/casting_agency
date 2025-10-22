@@ -10,9 +10,9 @@ from urllib.error import URLError
 # load .env from project root
 load_dotenv()
 
-AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN', 'dev-37mr64f34epz156f.us.auth0.com')
-ALGORITHMS = os.getenv('AUTH0_ALGORITHMS', 'RS256').split(',')
-API_AUDIENCE = os.getenv('AUTH0_AUDIENCE', 'CastingAgencyAPI')
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
+ALGORITHMS = os.getenv('AUTH0_ALGORITHMS').split(',')
+API_AUDIENCE = os.getenv('AUTH0_AUDIENCE')
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
