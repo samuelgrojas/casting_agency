@@ -6,14 +6,18 @@ from app import app
 
 load_dotenv()
 
-TOKEN = os.getenv("TEST_TOKEN")
-
 class CastingAgencyTestCase(unittest.TestCase):
     def setUp(self):
+        self.test_token = os.getenv("TEST_TOKEN")
+
+        self.assistant_token = os.getenv("CASTING_ASSISTANT_TOKEN")
+        self.director_token = os.getenv("CASTING_DIRECTOR_TOKEN")
+        self.producer_token = os.getenv("EXECUTIVE_PRODUCER_TOKEN")
+
         self.client = app.test_client()
         self.headers = {
             'Content-Type': 'application/json',
-            'Authorization': f'Bearer {TOKEN}'
+            'Authorization': f'Bearer {self.test_token}'
         }
 
     # ACTORS

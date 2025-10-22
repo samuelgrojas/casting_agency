@@ -30,10 +30,33 @@ def index():
 @requires_auth('get:actors')
 def get_actors(payload):
     try:
-        actors = Actor.query.order_by(Actor.id).all()
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        actors = Actor.query.order_by(Actor.id).paginate(
+            page=page, per_page=per_page, error_out=False
+        )
         return jsonify({
             "success": True,
-            "actors": [a.format() for a in actors]
+            "actors": [a.format() for a in actors.items],
+            "total": actors.total,
+            "page": page,
+            "pages": actors.pages
+        }), 200
+    except Exception as e:
+        print(e)
+        abort(500)
+
+
+@app.route('/actors/search', methods=['GET'])
+@requires_auth('get:actors')
+def search_actors(payload):
+    try:
+        name_query = request.args.get('name', '', type=str)
+        actors = Actor.query.filter(Actor.name.ilike(f'%{name_query}%')).all()
+        return jsonify({
+            "success": True,
+            "actors": [a.format() for a in actors],
+            "total": len(actors)
         }), 200
     except Exception as e:
         print(e)
